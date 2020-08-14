@@ -134,6 +134,10 @@ func configureClient(hostname string) *http.Client {
 		DisableCompression: true,
 		MaxIdleConns:       1,
 		Proxy:              http.ProxyFromEnvironment,
+		// HACK: Attempt to stop cloudflared from killing my internet.
+		// Taken from: https://github.com/cloudflare/cloudflared/issues/91#issuecomment-582239351
+		// (because I'm weird about installing things locally + build cloudflared already)
+		MaxConnsPerHost:    2,
 	}
 	http2.ConfigureTransport(transport)
 
